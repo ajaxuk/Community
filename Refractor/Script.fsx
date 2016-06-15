@@ -49,8 +49,6 @@ let move dist plotter =
     let rads    = (angle - 90.0) * Math.PI/180.0
     let endX    = (float startX) + (float dist) * cos rads
     let endY    = (float startY) + (float dist) * sin rads
-    printfn "%A" endX
-    printfn "%A" endY
     let plotted = naiveLine (int endX,int endY) plotter
     plotted
 
@@ -58,17 +56,28 @@ let move dist plotter =
 let pathAndFileName =
     Path.Combine(__SOURCE_DIRECTORY__,"refactor.png")
 
-let bitmap = new Bitmap (100,100)
+let bitmap = new Bitmap (100,30)
 
 let initialPlotter = {
-    position    = (50,30)
+    position    = (5,20)
     color       = Color.Goldenrod
-    direction   = 180.0
+    direction   = 0.0
     bitmap = bitmap}
 
 
 
 
-(move 30 
-   (turn -90.0 
-     (move 25 initialPlotter))).bitmap.Save(pathAndFileName)
+
+let drawn = 
+    initialPlotter
+    |> move 15
+    |> turn 90.0
+    |> move 60
+    |> turn 90.0
+    |> move 15
+    |> turn -90.0
+    |> move 20
+    |> turn -90.0
+    |> move 15
+
+drawn.bitmap.Save(pathAndFileName)
